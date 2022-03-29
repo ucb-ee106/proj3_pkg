@@ -63,15 +63,23 @@ def lookup_transform(to_frame, from_frame='base'):
 
 def execute_grasp(T_world_grasp, planner, gripper):
     """
-    Takes in the desired hand position relative to the object, finds the desired 
-    hand position in world coordinates. Then moves the gripper from its starting 
-    orientation to some distance BEHIND the object, then move to the  hand pose 
-    in world coordinates, closes the gripper, then moves up.  Finally, places object
-    somewhere on table. 
+    Perform a pick and place procedure for the object. One strategy (which we have
+    provided some starter code for) is to
+    1. Move the gripper from its starting pose to some distance behind the object
+    2. Move the gripper to the grasping pose
+    3. Close the gripper
+    4. Move up
+    5. Place the object somewhere on the table
+    6. Open the gripper. 
+
+    As long as your procedure ends up picking up and placing the object somewhere
+    else on the table, we consider this a success!
 
     HINT: We don't require anything fancy for path planning, so using the MoveIt
     API should suffice. Take a look at path_planner.py. The `plan_to_pose` and
-    `execute_plan` functions should be useful.
+    `execute_plan` functions should be useful. If you would like to be fancy,
+    you can also explore the `compute_cartesian_path` functionality described in
+    http://docs.ros.org/en/kinetic/api/moveit_tutorials/html/doc/move_group_python_interface/move_group_python_interface_tutorial.html
     
     Parameters
     ----------
@@ -91,8 +99,30 @@ def execute_grasp(T_world_grasp, planner, gripper):
     inp = raw_input('Press <Enter> to move, or \'exit\' to exit')
     if inp == "exit":
         return
+
+    raise NotImplementedError
+    # Go behind object
+    pose = Pose()
+    pose.position.x = ...
+    pose.position.y = ...
+    pose.position.z = ...
+    pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w = quaternion_from_matrix(...)
+    plan = planner.plan_to_pose(pose)
+    planner.execute_plan(plan)
     
-    # YOUR CODE HERE
+    # Then swoop in
+    planner.execute_plan(plan)
+
+    # Bring the object up
+    planner.execute_plan(plan)
+
+    # And over
+    planner.execute_plan(plan)
+
+    # And now place it
+    planner.execute_plan(plan)
+    open_gripper()
+
     raise NotImplementedError
 
 def locate_cube(camera_image_topic, camera_info_topic, camera_frame):

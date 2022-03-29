@@ -7,8 +7,7 @@ import numpy as np
 from utils import vec, adj, look_at_general, find_grasp_vertices, normal_at_point
 from casadi import Opti, sin, cos, tan, vertcat, mtimes, sumsqr, sum1
 
-# probably don't need to change these (BUT confirm that they're correct)
-# Alternatively, edit to make grasp point selection more/less restrictive
+# Can edit to make grasp point selection more/less restrictive
 MAX_GRIPPER_DIST = .075
 MIN_GRIPPER_DIST = .03
 
