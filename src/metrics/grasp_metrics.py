@@ -40,7 +40,22 @@ def compute_force_closure(vertices, normals, num_facets, mu, gamma, object_mass,
     -------
     float : 1 or 0 if the grasp is/isn't force closure for the object
     """
-    raise NotImplementedError
+    normal0 = -1.0 * normals[0] / (1.0 * np.linalg.norm(normals[0]))
+    normal1 = -1.0 * normals[1] / (1.0 * np.linalg.norm(normals[1]))
+
+    alpha = np.arctan(mu)
+    line = vertices[0] - vertices[1]
+    line = line / (1.0 * np.linalg.norm(line))
+    angle1 = np.arccos(normal1.dot(line))
+
+    line = -1 * line
+    angle2 = np.arccos(normal0.dot(line))
+
+    if angle1 > alpha or angle2 > alpha:
+        return 0
+    if gamma == 0:
+        return 0
+    return 1
 
 def get_grasp_map(vertices, normals, num_facets, mu, gamma):
     """ 
