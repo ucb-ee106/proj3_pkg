@@ -147,9 +147,9 @@ def locate_cube(camera_image_topic, camera_info_topic, camera_frame):
     :obj:`trimesh.primatives.Box` : trimesh object for reconstructed cube
     """
     bridge = CvBridge()
-    image = rospy.wait_for_message(Image, camera_image_topic)
+    image = rospy.wait_for_message(camera_image_topic, Image)
     cv_image = bridge.imgmsg_to_cv2(image, desired_encoding='passthrough')
-    info = rospy.wait_for_message(CameraInfo, camera_info_topic)
+    info = rospy.wait_for_message(camera_info_topic, CameraInfo)
     T_world_camera = lookup_transform(camera_frame)
 
     # Do your image processing on cv_image here!
