@@ -225,7 +225,7 @@ def create_transform_matrix(rotation_matrix, translation_vector):
     """
     return np.r_[np.c_[rotation_matrix, translation_vector],[[0, 0, 0, 1]]]
 
-def rotation_from_quaternion(q_wxyz):
+def rotation_from_quaternion(q_xyzw):
     """Convert quaternion array to rotation matrix.
     Parameters
     ----------
@@ -236,8 +236,6 @@ def rotation_from_quaternion(q_wxyz):
     :obj:`numpy.ndarray` of float
         A 3x3 rotation matrix made from the quaternion.
     """
-    q_xyzw = np.array([q_wxyz[1], q_wxyz[2], q_wxyz[3], q_wxyz[0]])
-
     r = Rotation.from_quat(q_xyzw)
     try:
         mat = r.as_dcm()
